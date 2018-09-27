@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Bestreads app</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+  </head>
+
+  <body class="text-center">
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="masthead-brand">Bestreads app</h3>
+        </div>
+      </header>
+
+      <main role="main" class="inner cover">
+        <h1 class="cover-heading">Almost done!</h1>
+        <p class="lead">We got your Goodreads account. Now, you need to sign your token using <a target="_blank" href="https://metamask.io">MetaMask</a>.</p>
+        <p>
+          <input id="token" class="form-control" value="<%= request[:token] %>" disabled="true" style="width: 100%;">
+        </p>
+        <p>
+          <button href="/connect" class="btn btn-lg btn-secondary">Sign with MetaMask</button>
+        </p>
+      </main>
+
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p><a target="_blank" href="http://github.com/reputation-network/rey-example-bestreads">View source code</a></p>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+    function toHex(str) {
+      return str.split("")
+        .map((c) => c.charCodeAt(0).toString(16))
+        .join("");
+    }
+
+    function requestUserSignString(str) {
+      return new Promise((resolve, reject) => {
+        const web3 = window.web3;
+        if (!web3 || !web3.currentProvider || !web3.currentProvider.isMetaMask) {
+          reject(new Error("MetaMask doesn't seem to be installed"));
+        }
+        const strHex = `0x${toHex(str)}`;
+        if (!web3.eth.defaultAccount) {
+          reject(new Error('Please log in to MetaMask'));
+        } else {
+          web3.personal.sign(strHex, web3.eth.defaultAccount, (err, signature) =>
+            err ? reject(err) : resolve(signature));
+        }
+      });
+    }
+
+    document.querySelector('button').addEventListener('click', () => {
+      (async () => {
+        try {
+          var token = document.getElementById('token').value;
+          var signature = await requestUserSignString(token);
+          var opts = { method: 'POST', headers: {} };
+          await fetch('/sign?token=' + token + '&signature=' + signature, opts);
+          window.location.href = '/done';
+        } catch(e) {
+          alert(e);
+        }
+      })();
+    })
+    </script>
+  </body>
+</html>
+

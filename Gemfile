@@ -1,0 +1,12 @@
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'sinatra-contrib'
+gem 'dotenv'
+gem 'oauth'
+gem 'nokogiri'
+gem 'json'
+gem 'mongo'
+gem 'bigdecimal'
+gem 'eth'
+gem 'thin'
