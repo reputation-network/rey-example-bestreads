@@ -28,6 +28,7 @@ MANIFEST = {
   address: ENV['APP_ADDRESS'] || '0x88032398beab20017e61064af3c7c8bd38f4c968',
   app_url: ENV['APP_URL'] || 'http://localhost:8000/data',
   app_reward: 0,
+  app_schema: { min: 30, max: 30, mean: 30},
   app_dependencies: []
 }.freeze
 
