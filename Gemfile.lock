@@ -38,7 +38,7 @@ GEM
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     oauth (0.5.4)
-    rack (2.0.5)
+    rack (2.0.6)
     rack-protection (2.0.3)
       rack
     rake (12.0.0)
@@ -78,6 +78,7 @@ DEPENDENCIES
   mongo
   nokogiri
   oauth
+  rack (~> 2.0.6)
   sinatra
   sinatra-contrib
   thin
